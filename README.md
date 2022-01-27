@@ -381,7 +381,7 @@ Unlike C and other compiled languages (where all of code and libraries are combi
 
 The first part is called **Engine** and the second is **Runtime**, the second thing is achieved mostly via `libuv`.
 
-![Node-V8-libuv](/blob/main/snippets/static/7.png)
+![Node-V8-libuv](./blob/main/snippets/static/7.png)
 
 For example, the Chrome Browser and node.js use the same Engine - V8, but their Runtimes are different: in Chrome you have the **window, DOM objects etc**, while node gives you **require, Buffers and processes**.
 
