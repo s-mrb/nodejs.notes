@@ -391,11 +391,11 @@ For example, the Chrome Browser and node.js use the same Engine - V8, but their 
 
 ### What is basic architecture of Node.js?
 
-![node-architecture](/blob/main/snippets/static/1.png)
+![node-architecture](/snippets/static/1.png)
 
-![node-architecture](/blob/main/snippets/static/0.png)
+![node-architecture](/snippets/static/0.png)
 
-![node-architecture](/blob/main/snippets/static/1.5.png)
+![node-architecture](/snippets/static/1.5.png)
 
 
 <p align="center"><a href="#index">back to index<a/></p>
@@ -1005,11 +1005,11 @@ myEmitter.on('event', () => {
 
 _**Each Node.js program have `one main thread` (though there could be multiple internal threads by libuv), that main thread have one event loop.**_
 
-![event-loop](/blob/main/snippets/static/3.png)  
+![event-loop](/snippets/static/3.png)  
 
 In computer science, the event loop is a programming construct or design pattern that **waits** for and **dispatches events** or messages in a program. The event loop **works by making a request to some internal or external "event provider", then calls the relevant event handler.**  
 
-![event-loop](/blob/main/snippets/static/2.png)
+![event-loop](/snippets/static/2.png)
 
 
 
@@ -1020,13 +1020,13 @@ In computer science, the event loop is a programming construct or design pattern
 The event loop continuously **checks the call stack to see if there's any function that needs to run**.
 While doing so, it **adds any function call it finds to the call stack** and executes each one in order.  
 
-![event-loop](/blob/main/snippets/static/4.png)  
+![event-loop](/snippets/static/4.png)  
 
-![event-loop](/blob/main/snippets/static/5.png)  
+![event-loop](/snippets/static/5.png)  
 
 The event loop on every iteration looks if there's something in the call stack, and executes it:  
 
-![event-loop](/blob/main/snippets/static/6.png)
+![event-loop](/snippets/static/6.png)
 
 ##### Message Queue (??whattttt:conflict with above 6 queues)
 
@@ -1142,26 +1142,26 @@ The value defined after current pop in call stack
 
 The libuv library maintains a pool of threads that are used by node. js to perform long-running operations in the background, without blocking its main thread. Node uses the Worker Pool to handle “expensive” tasks.
 
-![thread-pool](/blob/main/snippets/static/8.png)
+![thread-pool](/snippets/static/8.png)
 
 
 See below diagram to understand the fact that there is one main thread, which runs event loop, and synchronous part of each code is time interleaved.
 
-![thread-pool](/blob/main/snippets/static/9.png)
+![thread-pool](/snippets/static/9.png)
 
 The following figure illustrates requests sent to the NodeJS server from the users side.
 
-![thread-pool](/blob/main/snippets/static/10.png)
+![thread-pool](/snippets/static/10.png)
 
 Each request from the users side is treated to be an event by the NodeJS. They is placed into an Event Queue. The NodeJS uses FIFO (First In First Out) principle, which means that the requests coming first will be handled first.  
 As an endless loop, it passes the requests to the thread Pool and each request is registered a Callback function.  When a request is finished handling, the corresponding Callback function will be called to be executed.  
 Being a program by  C++ language, it supports multi threads. Therefore, herein, requests will be handled on different threads. The NodeJS also supports Multi Processes. This means that they can be executed on different cores.
 
-![thread-pool](/blob/main/snippets/static/11.png)
+![thread-pool](/snippets/static/11.png)
 
 When a request is finished handling. The NodeJS will call the Callback function (registered for this request) to execute it.
 
-![thread-pool](/blob/main/snippets/static/12.png)
+![thread-pool](/snippets/static/12.png)
 
 
 ##### `UV_THREADPOOL_SIZE`
@@ -3228,7 +3228,7 @@ read through the API docs for [`EventEmitters`][], [`Streams`][], and [`HTTP`][]
 ##### GET
 
 
-- [http_get.js](/blob/main/snippets/11_http_requests/http_get.js)
+- [http_get.js](/snippets/11_http_requests/http_get.js)
 
 ```js
 const https = require('https')
@@ -3258,7 +3258,7 @@ req.end()
 
 ##### POST
 
-- [http_post.js](/blob/main/snippets/11_http_requests/http_post.js)
+- [http_post.js](/snippets/11_http_requests/http_post.js)
 
 ```js
 const https = require('https')
