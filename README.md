@@ -198,7 +198,9 @@ Refer the table below for the guide.
     - [What is the use of `file descriptor`?](#what-is-the-use-of-file-descriptor)
     - [How to manipulate folders?](#how-to-manipulate-folders)
     - [What are streams in Node.js?](#what-are-streams-in-nodejs)
+    - [`end` vs `finish` events on stream](#end-vs-finish-events-on-stream)
     - [What are buffers in Node.js?](#what-are-buffers-in-nodejs)
+    - [`buffer` vs `stream`](#buffer-vs-stream)
     - [How to do clustering?](#how-to-do-clustering)
         - [Relation between number of forks and server response time](#relation-between-number-of-forks-and-server-response-time)
         - [How to find optimum number of slave instances in clustering](#how-to-find-optimum-number-of-slave-instances-in-clustering)
@@ -410,7 +412,9 @@ Many functions in Node are implemented in C++. So when we use such functions/mod
 
 For example take the example of `createCipher(cipher, password, options) ` function, at the time of making these notes, have following definition in JavaScript:
 
-- [crypto.js](https://github.com/nodejs/node/blob/master/lib/crypto.js)
+</br>
+
+[crypto.js](https://github.com/nodejs/node/blob/master/lib/crypto.js)
 
 ```js
 ...
@@ -422,7 +426,9 @@ function createCipher(cipher, password, options) {
 
 Cipher have following definition in JavaScript:
 
-- [cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
+</br>
+
+[cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
 
 ```js
 function Cipher(cipher, password, options) {
@@ -437,7 +443,9 @@ RefelctApply calls the final layers of JavaScript code, the code which either in
 
 `createCipher` have following definition in JavaScript:
 
-- [cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
+</br>
+
+[cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
 
 ```js
 function createCipher(cipher, password, options, decipher) {
@@ -450,7 +458,9 @@ function createCipher(cipher, password, options, decipher) {
 
 `createCipher` is finally calling last layered JavaScript side code, `createCipherBase`, defined in the same file.
 
-- [cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
+</br>
+
+[cipher.js](https://github.com/nodejs/node/blob/14b26e07bd90c30bd6a7df0f3cefd35698e24c8d/lib/internal/crypto/cipher.js)
 
 ```js
 function createCipherBase(cipher, credential, options, decipher, iv) {
@@ -484,7 +494,9 @@ Now lets move to C++ side, how the objects/options/data passed to `CipherBase` g
 
 This is where V8 comes into game, it acts as intermediary between JavaScript and C++, translating data between the two.
 
-- [crypto_cipher.cc](https://github.com/nodejs/node/blob/master/src/crypto/crypto_cipher.cc) uses V8 to translate data types:
+</br>
+
+[crypto_cipher.cc](https://github.com/nodejs/node/blob/master/src/crypto/crypto_cipher.cc) uses V8 to translate data types:
 
 ```c
 
@@ -1198,7 +1210,9 @@ const hash = (id)=>{
 
 Now see the below code and output:
 
-- [test_for_threads_1.js](/tree/main/snippets/17_threads/test_for_threads_1.js)
+</br>
+
+[test_for_threads_1.js](/tree/main/snippets/17_threads/test_for_threads_1.js)
 
 
 ```js
@@ -1214,7 +1228,9 @@ hash(2) // 533
 
 and this one:
 
-- [test_for_threads_2.js](/tree/main/snippets/17_threads/test_for_threads_2.js)
+</br>
+
+[test_for_threads_2.js](/tree/main/snippets/17_threads/test_for_threads_2.js)
 
 
 ```js
@@ -1242,7 +1258,9 @@ _**NOTE:**_ Thread Pool utilize all cores with a CPU, but they don't utlize diff
 
 Call async functions n times, xth time which shows significant delay is due to the fact that all the threads within all cores of a CPU were filled, and this xth function call had to wait for a considerable time.
 
-- [test_thread_pool_size.js](/tree/main/snippets/17_threads/test_for_thread_pool_size_.js)
+</br>
+
+[test_thread_pool_size.js](/tree/main/snippets/17_threads/test_for_thread_pool_size_.js)
 
 ```js
 const crypto = require('crypto')
@@ -1288,6 +1306,7 @@ hash(2)  // 1023
 ### The strategy used by libuv to achieve asynchronous I/O is not always a thread pool!!
 
 Unlike the hashing code which used threadpool of size 4, below async function don't make use of thread pool, that's why it is handling more than 4 threads simultaneously!
+
 ```js
 const https = require('https')
 const start = Date.now()
@@ -1317,7 +1336,9 @@ make_request()  // 750
 
 ### Crazy Event Loop
 
-- [crazy_event_loop.js](/tree/main/snippets/18_crazy_event_loop/crazy_event_loop.js)
+</br>
+
+[crazy_event_loop.js](/tree/main/snippets/18_crazy_event_loop/crazy_event_loop.js)
 
 ```js
 const https = require('https')
@@ -1662,7 +1683,9 @@ args['name'] //joe
 
 ##### Code
 
-- [cl_args.js](/tree/main/snippets/0_command_line_args/cl_args.js)
+</br>
+
+[cl_args.js](/tree/main/snippets/0_command_line_args/cl_args.js)
 
 ```js
 console.log(process.argv)
@@ -1745,7 +1768,9 @@ As Tomasz mentioned, it shouldn't matter to most of the application where the pa
 
 ### How to use Colored Text?
 
-- [color.js](/tree/main/snippets/1_colored_text_and_progesss_bar/color.js)
+</br>
+
+[color.js](/tree/main/snippets/1_colored_text_and_progesss_bar/color.js)
 
 ```js
 // Colored Text
@@ -1761,7 +1786,9 @@ console.log(chalk.yellow('hi!'))
 
 ### How to use a Progress Bar?
 
-- [progress.js](/tree/main/snippets/1_colored_text_and_progesss_bar/progress.js)
+</br>
+
+[progress.js](/tree/main/snippets/1_colored_text_and_progesss_bar/progress.js)
 
 ```console
 npm i progress
@@ -1793,7 +1820,9 @@ const timer = setInterval(() => {
 
 ### How to take User Input?
 
-- [input.js](/tree/main/snippets/2_user_input/input.js)
+</br>
+
+[input.js](/tree/main/snippets/2_user_input/input.js)
 
 ```js
 const readline = require('readline').createInterface({
@@ -1815,7 +1844,9 @@ const readline = require('readline').createInterface({
 
 ### Basic Export Mechanism in Node
 
-- [exports.js](/tree/main/snippets/3_exports/exports.js)
+</br>
+
+[exports.js](/tree/main/snippets/3_exports/exports.js)
 
 ```js
 const person = {
@@ -2086,7 +2117,9 @@ A `setTimeout()` callback with a 0ms delay is very similar to `setImmediate()`. 
 
 ##### Code
 
-- [setTimeout.js](/tree/main/snippets/4_timer/setTimeout.js)
+</br>
+
+[setTimeout.js](/tree/main/snippets/4_timer/setTimeout.js)
 
 ```js
 
@@ -2114,7 +2147,9 @@ if (process.argv[2] && process.argv[2] == 0) {
 }
 ```
 
-- [setInterval.js](/tree/main/snippets/4_timer/setInterval.js)
+</br>
+
+[setInterval.js](/tree/main/snippets/4_timer/setInterval.js)
 
 ```js
 const addition = (a, b) => {
@@ -2195,7 +2230,9 @@ For more detailed examples:
 
 ##### Simple Callback
 
-- [custom_callback_1.js](/tree/main/snippets/5_custom_callback/custom_callback_1.js)
+</br>
+
+[custom_callback_1.js](/tree/main/snippets/5_custom_callback/custom_callback_1.js)
 
 ```js
 // add function, adds numbers and calls callback
@@ -2219,7 +2256,9 @@ add(1, 1, product, 3)
 
 ##### Callback Linked with Object Prototype
 
-- [custom_callback_2.js](/tree/main/snippets/5_custom_callback/custom_callback_2.js)
+</br>
+
+[custom_callback_2.js](/tree/main/snippets/5_custom_callback/custom_callback_2.js)
 
 ```js
 // Calc have add function which after adding calls a callback which uses a specific scope
@@ -2289,7 +2328,9 @@ console.log(add(2,3,double))
 
 ##### Sample Callback Hell
 
-- [callback_hell.js](/tree/main/snippets/6_callback_hell/callback_hell.js)
+</br>
+
+[callback_hell.js](/tree/main/snippets/6_callback_hell/callback_hell.js)
 
 ```js
 const cb = (delay1, delay_increment = 1, sum = 0) => {
@@ -2360,7 +2401,9 @@ A promise is an object that may produce a single value some time in the future :
 
 ##### Sample Promise
 
-- [promise.js](/tree/main/snippets/7_promises/promise.js)
+</br>
+
+[promise.js](/tree/main/snippets/7_promises/promise.js)
 
 ```js
 
@@ -2402,9 +2445,13 @@ undefined
 ```
 ##### Promise for Callback Hell
 
-- [callback_hell.js](/tree/main/snippets/6_callback_hell/callback_hell.js), see above example. Same code is referenced here.
+</br>
 
-- [promisify_callback.js](/tree/main/snippets/7_promises/promisify_callback.js)
+[callback_hell.js](/tree/main/snippets/6_callback_hell/callback_hell.js), see above example. Same code is referenced here.
+
+</br>
+
+[promisify_callback.js](/tree/main/snippets/7_promises/promisify_callback.js)
 
 ```js
 const timeOut = (delay) => {
@@ -2427,7 +2474,9 @@ timeOut(1000)
 
 ##### Promise `fs.read`
 
-- [promisify_fsread.js](/tree/main/snippets/7_promises/promisify_fsread.js)
+</br>
+
+[promisify_fsread.js](/tree/main/snippets/7_promises/promisify_fsread.js)
 
 ```js
 const fs = require('fs')
@@ -2451,7 +2500,9 @@ getFile('/etc/passwd')
 
 ##### Promise Chaining
 
-- [promise_chain.js](/tree/main/snippets/7_promises/promise_chain.js)
+</br>
+
+[promise_chain.js](/tree/main/snippets/7_promises/promise_chain.js)
 
 ```js
 
@@ -2480,7 +2531,9 @@ const status = response => {
 
 > If you need to synchronize different promises, `Promise.all()` helps you define a list of promises, and execute something when they are all resolved.
 
-- [promise_all.js](/tree/main/snippets/7_promises/promise_all.js)
+</br>
+
+[promise_all.js](/tree/main/snippets/7_promises/promise_all.js)
 
 ```js
 const fetch = require('node-fetch');
@@ -2501,7 +2554,9 @@ Promise.all([f1, f2])
 
 > Promise.race() runs when the first of the promises you pass to it resolves, and it runs the attached callback just once, with the result of the first promise resolved.
 
-- [promise_race.js](/tree/main/snippets/7_promises/promise_race.js)
+</br>
+
+[promise_race.js](/tree/main/snippets/7_promises/promise_race.js)
 
 ```js
 
@@ -2573,7 +2628,9 @@ We will make a `wrapper function` which returns our `promise`, we will call our 
 
 > Since our `promises` can `reject` so they must be called within `try catch` block. 
 
-- [promise.js](/tree/main/snippets/7_promises/promise.js)
+</br>
+
+[promise.js](/tree/main/snippets/7_promises/promise.js)
 
 ```js
 
@@ -2593,7 +2650,9 @@ const promise = new Promise((resolve, reject) => {
 promise.then((data) => console.log(data)).catch((err) => console.log(err))
 ```
 
-- [async_await.js](/tree/main/snippets/8_async_await/async_await.js)
+</br>
+
+[async_await.js](/tree/main/snippets/8_async_await/async_await.js)
 
 ```js
 // node promise.js 0 -> reject promise
@@ -2654,7 +2713,9 @@ fn().then(data => console.log(data))
 
 ### Event Emitter
 
-- [event_emitter.js](/tree/main/snippets/9_event_emitter/event_emitter.js)
+</br>
+
+[event_emitter.js](/tree/main/snippets/9_event_emitter/event_emitter.js)
 
 ```js
 // node event_emitter.js add num1 num2
@@ -2705,7 +2766,9 @@ if(process.argv[2]=="add"){
 }
 ```
 
-- [remove_listener.js](/tree/main/snippets/9_event_emitter/remove_listener.js)
+</br>
+
+[remove_listener.js](/tree/main/snippets/9_event_emitter/remove_listener.js)
 
 ```js
 const EventEmitter = require('events')
@@ -2752,7 +2815,9 @@ So, we must listen for the body content to be processed, and it's processed in *
 We first get the data by listening to the stream data events, and when the data ends, the stream end event is called, once:
 
 
-- [http_server.js](/tree/main/snippets/10_http_server/http_server.js)
+</br>
+
+[http_server.js](/tree/main/snippets/10_http_server/http_server.js)
 
 ```js
 // PORT=port node http_server.js
@@ -3228,7 +3293,9 @@ read through the API docs for [`EventEmitters`][], [`Streams`][], and [`HTTP`][]
 ##### GET
 
 
-- [http_get.js](/snippets/11_http_requests/http_get.js)
+</br>
+
+[http_get.js](/snippets/11_http_requests/http_get.js)
 
 ```js
 const https = require('https')
@@ -3258,7 +3325,9 @@ req.end()
 
 ##### POST
 
-- [http_post.js](/snippets/11_http_requests/http_post.js)
+</br>
+
+[http_post.js](/snippets/11_http_requests/http_post.js)
 
 ```js
 const https = require('https')
@@ -3308,7 +3377,9 @@ req.end()
 
 Use `fs.openSync(path,mode)` to return a file descriptor. File descriptor is a reference to an open file.
 
-- [file_descriptor.js](/tree/main/snippets/12_file_descriptor/file_descriptor.js)
+</br>
+
+[file_descriptor.js](/tree/main/snippets/12_file_descriptor/file_descriptor.js)
 
 ```js
 const fs = require('fs')
@@ -3334,7 +3405,9 @@ try {
 
 ### How to get file stats?
 
-- [fs_stat.js](/tree/main/snippets/13_fs_stat/fs_stat.js)
+</br>
+
+[fs_stat.js](/tree/main/snippets/13_fs_stat/fs_stat.js)
 
 ```js
 const fs = require('fs')
@@ -3357,7 +3430,9 @@ fs.stat('./test.txt', (err, stats) => {
 
 ### Read and Write files?
 
-- [file_read.js](/tree/main/snippets/15_file_rw/file_read.js)
+</br>
+
+[file_read.js](/tree/main/snippets/15_file_rw/file_read.js)
 
 ```js
 const fs = require('fs')
@@ -3380,7 +3455,9 @@ try {
 }
 ```
 
-- [file_write.js](/tree/main/snippets/15_file_rw/file_write.js)
+</br>
+
+[file_write.js](/tree/main/snippets/15_file_rw/file_write.js)
 
 ```js
 const fs = require('fs')
@@ -3425,7 +3502,9 @@ You'd call `fs.open()` if you want to perform several actions on that file. Meth
 
 ### How to manipulate folders?
 
-- [list_files.js](/tree/main/snippets/16_folders/list_files.js)
+</br>
+
+[list_files.js](/tree/main/snippets/16_folders/list_files.js)
 
 ```js
 const fs = require('fs')
@@ -3460,7 +3539,9 @@ console.log(e)
 }
 ```
 
-- [mkdir_if_not.js](/tree/main/snippets/16_folders/mkdir_if_not.js)
+</br>
+
+[mkdir_if_not.js](/tree/main/snippets/16_folders/mkdir_if_not.js)
 
 ```js
  
@@ -3477,7 +3558,9 @@ try {
 }
 ```
 
-- [rmdir_if_present.js](/tree/main/snippets/16_folders/rmdir_if_present.js)
+</br>
+
+[rmdir_if_present.js](/tree/main/snippets/16_folders/rmdir_if_present.js)
 
 ```js
 const fs = require('fs')
@@ -3528,6 +3611,27 @@ Example:
 
 ---
 
+
+### `end` vs `finish` events on stream
+
+
+`end` and `finish` are the same event BUT on different types of Streams.
+
+`stream.Readable` fires ONLY `end` and NEVER `finish`
+`stream.Writable` fires ONLY `finish` and NEVER `end`
+Source: https://nodejs.org/dist/latest-v5.x/docs/api/stream.html
+
+**Why the different naming of the same event?**
+
+The only reason I could think of is because of duplex streams (stream.Duplex), which implement both stream.Readable and stream.Writable interfaces (https://nodejs.org/dist/latest-v5.x/docs/api/stream.html#stream_class_stream_duplex) are readable and writable stream at the same time.
+
+> To differentiate between end of reading and end of writing on the stream you must have a different event fired. SO, for Duplex streams end is end of reading and finish is end of writing.
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
 ### What are buffers in Node.js?
 
 The `Buffer` class in Node. js is designed to handle raw binary data. Each buffer corresponds to some raw memory allocated **outside** V8. Buffers act somewhat like arrays of integers, but aren't resizable and have a whole bunch of methods specifically for binary data.
@@ -3536,9 +3640,21 @@ The `Buffer` class in Node. js is designed to handle raw binary data. Each buffe
 
 ---
 
+### `buffer` vs `stream`
+
+A buffer is a temporary memory that a stream takes to hold some data until it is consumed. In a stream, the buffer size is decided by the highWatermark property on the stream instance which is a number denoting the size of the buffer in bytes. A buffer memory in Node by default works on String and Buffer 
+
+> Buffer is chunk of data, stream is chunks of buffers
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
 ### How to do clustering?
 
-- [simple_cluster.js](/tree/main/snippets/19_simple_cluster/simple_cluster.js)
+</br>
+
+[simple_cluster.js](/tree/main/snippets/19_simple_cluster/simple_cluster.js)
 
 ```js
 const cluster = require('cluster')
@@ -3582,7 +3698,9 @@ if (cluster.isMaster) {
 
 ##### Relation between number of forks and server response time
 
-- [Node.js, increaseing Forks in Cluster won't make server fast!](https://youtu.be/3eAccNV53rI)
+</br>
+
+[Node.js, increaseing Forks in Cluster won't make server fast!](https://youtu.be/3eAccNV53rI)
 
 
 ##### How to find optimum number of slave instances in clustering
@@ -3781,3 +3899,5 @@ pm2 delete index
 - The strategy used by libuv to achieve asynchronous I/O is not always a thread pool!!
 - How JIT works in Node?
 - Use cases of `async-await` vs those of `promises`, how they differ?
+- Transform stream
+- 
