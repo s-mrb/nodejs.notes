@@ -191,6 +191,7 @@ Refer the table below for the guide.
     - [How to make `http requests`?](#how-to-make-http-requests)
         - [GET](#get)
         - [POST](#post)
+    - [How to add Token in request](#how-to-add-token-in-request)
     - [File Descriptor](#file-descriptor)
         - [Modes](#modes)
     - [How to get file stats?](#how-to-get-file-stats)
@@ -3367,6 +3368,45 @@ req.on('error', error => {
 
 req.write(data)
 req.end()
+```
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
+
+### How to add Token in request
+
+You write it to the request object like:
+
+```js
+    var https = require('https')
+    
+    var options = {
+      "host": "sandbox-api.uber.com",
+      "path": "/v1/sandbox/requests/" + req.body.request_id,
+      "method": "PUT",
+      "headers": { 
+        "Authorization" : "Bearer " + req.body.bearer_token,
+        "Content-Type" : "application/json",
+      }
+    }
+    
+    callback = function(response) {
+      var str = ''
+      response.on('data', function(chunk){
+        str += chunk
+      })
+    
+      response.on('end', function(){
+        console.log(str)
+      })
+    }
+
+    var body = JSON.stringify({
+      status: 'accepted'
+    });
+    https.request(options, callback).end(body);
 ```
 
 <p align="center"><a href="#index">back to index<a/></p>
