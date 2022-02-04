@@ -1488,7 +1488,7 @@ In the beginning, a compiler was responsible for turning a high-level language (
 
 At one point in the evolution of languages, compilers would compile a high-level language into pseudo-code, which would then be interpreted (by an interpreter) to run your program. This eliminated the object code and executables, and allowed these languages to be portable to multiple operating systems and hardware platforms. Pascal (which compiled to P-Code) was one of the first; Java and C# are more recent examples. Eventually the term P-Code was replaced with bytecode, since most of the pseudo-operations are a byte long.
 
-A Just-In-Time (JIT) compiler is a feature of the run-time interpreter, that instead of interpreting bytecode every time a method is invoked, will compile the bytecode into the machine code instructions of the running machine, and then invoke this object code instead. Ideally the efficiency of running object code will overcome the inefficiency of recompiling the program every time it runs.
+A Just-In-Time (JIT) compiler is a feature of the run-time interpreter, that **instead of interpreting bytecode every time a method is invoked, will compile the bytecode into the machine code instructions of the running machine, and then invoke this object code instead.** Ideally the efficiency of running object code will overcome the inefficiency of recompiling the program every time it runs.
 
 <p align="center"><a href="#index">back to index<a/></p>
 
