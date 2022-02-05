@@ -1,71 +1,7 @@
 
----
-The **Index** of Notes `LA_Node` contains `A` through `K` categories.
-
-**How to know which category new content should be added?**  
-Refer the table below for the guide.
-
-| Category | Title                                 | Type of Content                                                                                                                                                                                                                                                                                                                                   |
-| -------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **C**    | _Some Jargons relating to Node.js_    | <ol><li>This contains terminilogies/jargons specific to Node.js world.</li><li>This doesn't contain terminilogies/jargons relating to coding paradigms/styles/methods/etc, for example `callback hell` doesn't belong to this category.</li></ol>                                                                                                 |
-| **D**    | _Internal of Node.js_                 | <ol><li>This contains stuff explaining the architecture/working of Node.js.</li><li>This does contain explanation(s) of quirky nature of code snippets due to Node.js architecture.</li></ol>                                                                                                                                                     |
-| **E**    | _A little about working with Node.js_ | <ol><li>This doesn't contains explanation(s) of quirky nature of code snippets due to Node.js architecture.</li><li>This contains information about `node modules` and `npm`.</li><li>This contains differences between methods/modules/codes/etc.</li><li>This contains **how to do(s)** for certain stuff/tasks using purely Node.js.</li></ol> |
-| **F**    | _Some modules in Node.js_             | <ol><li>This contains basic structure of node modules.</li><li>This doesn't contain **how to do(s)** for certain stuff/tasks using particular module.</li></ol>                                                                                                                                                                                   |
-| **G**    | _Few packages used with Node.js_      | <ol><li>This contains basic usage of widely used Node.js packages.</li></ol>                                                                                                                                                                                                                                                                      |
-
----
-
-<br>
-<br>
-<br>
 
 
-# Index
 
-**A.** **[What is Node.js?](#what-is-nodejs)** <br>
-**B.** **[How to Install Node.js?](#installation)**
-1. [Ubuntu](#ubuntu)
-    1. [Download Specific Version](#download-specific-version)
-    2. [Download LTS](#download-lts)
-    3. [Download Current Release](#download-current-release)
-
-**C.** **[Some Jargons relating to Node.js](#some-jargons-relating-to-nodejs)**<br>
-1. [LTS](#lts)
-2. [Runtime environment](#runtime-environment)
-
-**D.** **[Internals of Node.js](#internals-of-nodejs)**<br>
-1. [What is V8 engine?](#what-is-v8)
-2. [How V8, a JS engine, differs from Node.js, a runtime environment?](#how-v8-a-js-engine-differs-from-nodejs-a-runtime-environment)
-3. [What is basic architecture of Node.js?](#what-is-basic-architecture-of-nodejs)
-4. [Interaction between our JS code with C++ code](#interaction-between-our-js-code-with-c-code)
-5. [What is an event loop?](#what-is-an-event-loop)
-    1. [How it works?](#how-it-works)
-    2. [Message Queue](#message-queue)
-    3. [Job Queue](#job-queue)
-    4. [Heap](#heap)
-    5. [Pseudocode for event loop](#pseudocode-for-event-loop)
-    6. [Poll Queue](#poll-queue)
-6. [What is `threadpool`?](#what-is-threadpool)
-    1.  [UV_THREADPOOL_SIZE](#uv_threadpool_size)
-    2.  [Does increasing threadpool size increases performance?](#does-increasing-threadpool-size-increases-performance)
-    3.  [Point to Ponder](#point-to-ponder)
-    4.  [Cool way to determine pool size](#cool-way-to-determine-pool-size)
-    5.  [Running two threads for two async tasks (that use thread pool i.e not OSAsync tasks) in a CPU with single core with two thread support is not the same as running them on two different CPU's](#running-two-threads-for-two-async-tasks-that-use-thread-pool-ie-not-osasync-tasks-in-a-cpu-with-single-core-with-two-thread-support-is-not-the-same-as-running-them-on-two-different-cpus)
-7. [The strategy used by libuv to achieve asynchronous I/O is not always a thread pool!!](#the-strategy-used-by-libuv-to-achieve-asynchronous-io-is-not-always-a-thread-pool)
-8. [Crazy Event Loop](#crazy-event-loop)
-5. [Why event based network apps are faster than thread based?](#why-event-based-network-apps-are-faster-than-thread-based)
-6. [How does Node.js handle child threads?](#how-does-nodejs-handle-child-threads)
-7. [How does Node.js support multi-processor platforms, and does it fully utilize all processor resources?](#how-does-nodejs-support-multi-processor-platforms-and-does-it-fully-utilize-all-processor-resources)
-8. [JS compiled or interpreted?](#js-compiled-or-interpreted)
-    1. [Compiler vs Interpretor?](#compiler-vs-interpretor)
-9. [What is JIT compilation?](#what-is-jit-compilation)
-10. [What is tick in Nodejs event loop?](#what-is-tick-in-nodejs-event-loop)
-11. [What concurrency means in Node.js](#what-concurrency-means-in-nodejs)
-12. [In the backend Node make use of multi threading, do JS code gets executed in multiple threads or not?](#in-the-backend-node-make-use-of-multi-threading-do-js-code-gets-executed-in-multiple-threads-or-not)
-
-
-**E.** **[A little about working with Node.js](#a-little-about-working-with-nodejs)**<br>
-- [Index](#index)
 - [Content](#content)
   - [What is Node.js?](#what-is-nodejs)
   - [Installation](#installation)
@@ -216,16 +152,8 @@ Refer the table below for the guide.
   - [Few packages used with Node.js](#few-packages-used-with-nodejs)
     - [PM2](#pm2)
     - [To Be](#to-be-1)
-- [Should also know](#should-also-know)
-
-
-
-**F.**  **[Debugging](#debugging)**<br>
-**G.** **[Benchmarking](#benchmarking)**<br>
-**H.** **[Must See](#must-see)**<br>
-**I.** **[Some modules in Node.js](#some-modules-in-nodejs)**<br>
-**J.** **[Few packages used with Node.js](#few-packages-used-with-nodejs)**<br>
-
+  - [Should also know](#should-also-know)
+  
 ---
 ---
 
@@ -3926,7 +3854,7 @@ pm2 delete index
 ---
 
 
-# Should also know
+## Should also know
 - How node will handle 1000 requests from a client, each request ask the server to retrieve and send a google web page?
 - Thousand clients simultaneously made a request, how node will handle it?
 - Architecture not event driven but async and vice versa
