@@ -3784,10 +3784,14 @@ ab -c 50 -n 1000 server/end/point
 4. [Tasks, microtasks, queues and schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 5. [Event Loop](https://www.youtube.com/watch?v=P9csgxBgaZ8)
 6. [Timers](https://nodejs.org/en/docs/guides/timers-in-node/)
+7. [Memory Leaks](https://nodesource.com/blog/memory-leaks-demystified)
+8. [How to Find, Fix, and Prevent Node.js Memory Leaks](https://scoutapm.com/blog/nodejs-memory-leaks)
 
 <p align="center"><a href="#index">back to index<a/></p>
 
 ---
+---
+
 
 
 ## Some modules in Node.js
