@@ -3786,6 +3786,7 @@ ab -c 50 -n 1000 server/end/point
 6. [Timers](https://nodejs.org/en/docs/guides/timers-in-node/)
 7. [Memory Leaks](https://nodesource.com/blog/memory-leaks-demystified)
 8. [How to Find, Fix, and Prevent Node.js Memory Leaks](https://scoutapm.com/blog/nodejs-memory-leaks)
+9. [Avoiding Memory Leaks in Node.js: Best Practices for Performance](https://blog.appsignal.com/2020/05/06/avoiding-memory-leaks-in-nodejs-best-practices-for-performance.html)
 
 <p align="center"><a href="#index">back to index<a/></p>
 
