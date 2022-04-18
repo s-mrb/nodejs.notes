@@ -300,7 +300,13 @@ The runtime environment in turn acts as a **go-between between the application a
 
 V8 is the name of the JavaScript engine that powers Google Chrome. It's the thing that takes our JavaScript and executes it while browsing with Chrome. V8 is the JavaScript engine i.e. it parses and executes JavaScript code. The DOM, and the other Web Platform APIs (they all makeup runtime environment) are provided by the browser.
 
-V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++. It is used in Chrome and in Node.js, among others. It implements ECMAScript and WebAssembly, and runs on Windows 7 or later, macOS 10.12+, and Linux systems that use x64, IA-32, ARM, or MIPS processors. V8 can run standalone, or can be embedded into any C++ application.
+V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++. It is used in Chrome and in Node.js, among others. It **implements ECMAScript and WebAssembly**, and runs on Windows 7 or later, macOS 10.12+, and Linux systems that use x64, IA-32, ARM, or MIPS processors. V8 can run standalone, or can be embedded into any C++ application.
+
+Just-in-Time (JIT) compilation turns native JavaScript code to machine code as V8 does. The distinction between V8 code and other programming languages is that it does not generate intermediate code.
+
+The `Ignition` interpreter compiles JavaScript code and generates non-optimized machine code when a developer or program runs it on V8 (i.e. in a browser or Node environment). The `Turbofan` and `Crankshaft` components of V8 examine and recompile the machine code at runtime for optimal performance.
+
+
 
 <p align="center"><a href="#index">back to index<a/></p>
 
@@ -332,6 +338,37 @@ For example, the Chrome Browser and node.js use the same Engine - V8, but their 
 ![node-architecture](/snippets/static/1.5.png)
 
 
+- Event Driven
+- non blockign Async IO
+
+Javascript runs in a container - a program that reads your js codes and runs them. This program must do two things
+
+- parse your code and convert it to runnable commands
+- provide some objects to javascript so that it can interact with the outside world.
+
+The first part is called Engine (V8) and the second is Runtime, the second thing is achieved mostly via libuv.
+
+Basic Architecture:
+- Application
+- V8
+- Node Bindings
+- libuv (event queue, event loop, worker threads)
+
+
+Just-in-Time (JIT) compilation, which turns native JavaScript code to machine code as V8 does. The distinction between V8 code and other programming languages is that it does not generate intermediate code.
+
+The Ignition interpreter compiles JavaScript code and generates non-optimized machine code when a developer or program runs it on V8 (i.e. in a browser or Node environment). The Turbofan and Crankshaft components of V8 examine and recompile the machine code at runtime for optimal performance.
+
+
+**Message Queue:** When setTimeout() is called, the Browser or Node.js starts the timer. Once the timer expires, the callback function is put in the Message Queue. The Message Queue is also where user-initiated events like click or keyboard events, or fetch responses are queued before your code has the opportunity to react to them. Or also DOM events like onLoad. The loop gives priority to the call stack, and it first processes everything it finds in the call stack, and once there's nothing in there, it goes to pick up things in the message queue.   
+
+
+**Job Queue:** used by Promises. A way to execute the result of an async function as soon as possible, rather than being put at the end of the call stack.    
+
+
+**Heap:** In javascript, synchronous calls are going into the stack while asynchronous calls are going into the Heap, and when done are back in the Queue. A function is moving from the Queue to the Stack only when it's empty.
+
+
 <p align="center"><a href="#index">back to index<a/></p>
 
 ---
@@ -340,7 +377,7 @@ For example, the Chrome Browser and node.js use the same Engine - V8, but their 
 
 > Note: I myself am a beginner, this is my naive understanding, could be flawed.
 
-Many functions in Node are implemented in C++. So when we use such functions/modules then the JS specific objects are get translated by V8 into their equivalent in C++ world.
+Many functions in Node are implemented in C++. So when we use such functions/modules then the JS specific objects  get translated by V8 into their equivalent in C++ world.
 
 For example take the example of `createCipher(cipher, password, options) ` function, at the time of making these notes, have following definition in JavaScript:
 
@@ -2233,7 +2270,7 @@ It is a slang term used to describe huge number of nested functions/callbacks, s
 Main problems with callback hell are:
 
 - We **can not use the return value of callback in the function where it is passed because it is possible that it might be async and value is not calculated yet and call stack is processed further with null**, to do so we will make use of another callback within the original callback.
-- callback can return error and promises (async functions use promises) and try-catch do not errors thrown by promises
+- callback can return error and promises (async functions use promises) and try-catch do not catch errors thrown by promises as try-catch runs before the time error is thrown by a promise
 - Code becomes hard to read and maintain.
 
 > NOTE: only async callbacks cause problems, below code cause no problem
@@ -2310,7 +2347,13 @@ Promises (ES6), Async/Await (ES2017) and Generators.
 
 ### What is Async Waterfall?
 
-To be covered.
+Waterfall method runs all the functions(i.e. tasks) one by one and passes the result of the first function to the second, second function’s result to the third, and so on. When one function passes the error to its own callback, then the next functions are not executed. So, the main callback is immediately called with the error.
+
+**Syntax:** `waterfall(tasks,callback)`  
+**Output:** The `async.waterfall()` will pass only the result of the last function called to the main callback.    
+**tasks:** It refer to the array of async functions. Each function runs and sends the result as an argument to the next function.    
+**callback:**  Once all the functions are completed, then callback  runs. This will have arguments from the result of the last task’s callback. The callback is optional. It is invoked with (err,[results]).    
+
 
 <p align="center"><a href="#index">back to index<a/></p>
 
@@ -2318,7 +2361,12 @@ To be covered.
 
 ### What is Async Series?
 
-To be covered.
+The async.series method runs the functions in the tasks collection in series. Each one runs once the previous function has completed. If any functions in the series pass an error to its callback, no more functions are executed. Then, the callback is immediately called with the value of the error. Otherwise, callback receives an array of results of all the tasks when tasks have completed.
+
+**Syntax:** `series(tasks,callback)`   
+**Output:** The `async.series()`, once the series have finished, will pass all the results from all the tasks to the main callback.    
+**tasks:** It is a collection of tasks or functions in series.    
+**callback:** It is an optional argument, invoked when error occurs in any of the function, otherwise, it gets the array of the results of all the tasks.    
 
 <p align="center"><a href="#index">back to index<a/></p>
 
