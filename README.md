@@ -151,6 +151,88 @@
       - [Ubuntu](#ubuntu-1)
   - [Must See](#must-see)
   - [Some modules in Node.js](#some-modules-in-nodejs)
+    - [fs](#fs)
+    - [events](#events)
+      - [`emitter.addListener()`](#emitteraddlistener)
+      - [`emitter.emit()`](#emitteremit)
+      - [`emitter.eventNames()`](#emittereventnames)
+      - [`emitter.getMaxListeners()`](#emittergetmaxlisteners)
+      - [`emitter.listenerCount()`](#emitterlistenercount)
+      - [`emitter.listeners()`](#emitterlisteners)
+      - [`emitter.off()`](#emitteroff)
+      - [`emitter.on()`](#emitteron)
+      - [`emitter.once()`](#emitteronce)
+      - [`emitter.prependListener()`](#emitterprependlistener)
+      - [`emitter.prependOnceListener()`](#emitterprependoncelistener)
+      - [`emitter.removeAllListeners()`](#emitterremovealllisteners)
+      - [`emitter.removeListener()`](#emitterremovelistener)
+      - [`emitter.setMaxListeners()`](#emittersetmaxlisteners)
+    - [os](#os)
+      - [`os.arch()`](#osarch)
+      - [`os.cpus()`](#oscpus)
+      - [`os.endianness()`](#osendianness)
+      - [`os.freemem()`](#osfreemem)
+      - [`os.homedir()`](#oshomedir)
+      - [`os.hostname()`](#oshostname)
+      - [`os.loadavg()`](#osloadavg)
+      - [`os.networkInterfaces()`](#osnetworkinterfaces)
+      - [`os.platform()`](#osplatform)
+      - [`os.release()`](#osrelease)
+      - [`os.tmpdir()`](#ostmpdir)
+      - [`os.totalmem()`](#ostotalmem)
+      - [`os.type()`](#ostype)
+      - [`os.uptime()`](#osuptime)
+      - [`os.userInfo()`](#osuserinfo)
+    - [http](#http)
+      - [Properties](#properties)
+        - [`http.METHODS`](#httpmethods)
+        - [`http.STATUS_CODES`](#httpstatus_codes)
+        - [`http.globalAgent`](#httpglobalagent)
+      - [Methods](#methods)
+        - [`http.createServer()`](#httpcreateserver)
+        - [`http.request()`](#httprequest)
+        - [`http.get()`](#httpget)
+      - [Classes](#classes)
+        - [`http.Agent`](#httpagent)
+        - [`http.ClientRequest`](#httpclientrequest)
+        - [`http.Server`](#httpserver)
+        - [`http.ServerResponse`](#httpserverresponse)
+        - [`http.IncomingMessage`](#httpincomingmessage)
+    - [path](#path)
+      - [`path.basename()`](#pathbasename)
+      - [`path.dirname()`](#pathdirname)
+      - [`path.extname()`](#pathextname)
+      - [`path.format()`](#pathformat)
+      - [`path.isAbsolute()`](#pathisabsolute)
+      - [`path.join()`](#pathjoin)
+      - [`path.normalize()`](#pathnormalize)
+      - [`path.parse()`](#pathparse)
+      - [`path.relative()`](#pathrelative)
+      - [`path.resolve()`](#pathresolve)
+    - [buffer](#buffer)
+      - [What is a buffer?](#what-is-a-buffer)
+      - [Why do we need a buffer?](#why-do-we-need-a-buffer)
+      - [How to create a buffer](#how-to-create-a-buffer)
+      - [Using a buffer](#using-a-buffer)
+        - [Access the content of a buffer](#access-the-content-of-a-buffer)
+        - [Get the length of a buffer](#get-the-length-of-a-buffer)
+        - [Iterate over the contents of a buffer](#iterate-over-the-contents-of-a-buffer)
+        - [Changing the content of a buffer](#changing-the-content-of-a-buffer)
+        - [Slice a buffer](#slice-a-buffer)
+        - [Copy a buffer](#copy-a-buffer)
+    - [stream](#stream)
+      - [What are streams](#what-are-streams)
+      - [Why streams](#why-streams)
+      - [An example of a stream](#an-example-of-a-stream)
+      - [pipe()](#pipe)
+      - [Streams-powered Node.js APIs](#streams-powered-nodejs-apis)
+      - [Different types of streams](#different-types-of-streams)
+      - [How to create a readable stream](#how-to-create-a-readable-stream)
+      - [How to create a writable stream](#how-to-create-a-writable-stream)
+      - [How to get data from a readable stream](#how-to-get-data-from-a-readable-stream)
+      - [How to send data to a writable stream](#how-to-send-data-to-a-writable-stream)
+      - [Signaling a writable stream that you ended writing](#signaling-a-writable-stream-that-you-ended-writing)
+      - [How to create a transform stream](#how-to-create-a-transform-stream)
     - [To Be](#to-be)
   - [Few packages used with Node.js](#few-packages-used-with-nodejs)
     - [PM2](#pm2)
@@ -3846,6 +3928,1260 @@ ab -c 50 -n 1000 server/end/point
 
 
 ## Some modules in Node.js
+
+Module in Node.js is a simple or complex functionality organized in single or multiple JavaScript files which can be reused throughout the Node.js application.
+Each module in Node.js has its own context, so it cannot interfere with other modules or pollute global scope. Also, each module can be placed in a separate .js file under a separate folder.
+
+Node.js includes three types of modules:
+
+- Core Modules
+- Local Modules
+- Third Party Modules
+
+### fs
+
+The `fs` module provides a lot of very useful functionality to access and interact with the file system.
+
+Once you import it, you have access to all its methods, which include:
+
+- `fs.access():` check if the file exists and Node can access it with its permissions
+- `fs.appendFile():` append data to a file. If the file does not exist, it’s created
+- `fs.chmod():` change the permissions of a file specified by the filename passed. Related: `fs.lchmod()`, `fs.fchmod()`
+- `fs.chown():` change the owner and group of a file specified by the filename passed. Related: `fs.fchown()`, `fs.lchown()`
+- `fs.close():` close a file descriptor
+- `fs.copyFile():` copies a file
+- `fs.createReadStream():` create a readable file stream
+- `fs.createWriteStream():` create a writable file stream
+- `fs.link():` create a new hard link to a file
+- `fs.mkdir():` create a new folder
+- `fs.mkdtemp():` create a temporary directory
+- `fs.open():` set the file mode
+- `fs.readdir():` read the contents of a directory
+- `fs.readFile():` read the content of a file. Related: `fs.read()`
+- `fs.readlink():` read the value of a symbolic link
+- `fs.realpath():` resolve relative file path pointers (., ..) to the full path
+- `fs.rename():` rename a file or folder
+- `fs.rmdir():` remove a folder
+- `fs.stat():` returns the status of the file identified by the filename passed. Related: `fs.fstat()`, `fs.lstat()`
+- `fs.symlink():` create a new symbolic link to a file
+- `fs.truncate():` truncate to the specified length the file identified by the filename passed. Related: `fs.ftruncate()`
+- `fs.unlink():` remove a file or a symbolic link
+- `fs.unwatchFile():` stop watching for changes on a file
+- `fs.utimes():` change the timestamp of the file identified by the filename passed. Related: `fs.futimes()`
+- `fs.watchFile():` start watching for changes on a file. Related: `fs.watch()`
+- `fs.writeFile():` write data to a file. Related: `fs.write()`
+
+One peculiar thing about the `fs` module is that all the methods are asynchronous by default, but they can also work synchronously by appending Sync.
+
+
+For example let’s examine the `fs.rename()` method. The asynchronous API is used with a callback:
+
+```js
+const fs = require('fs')
+
+fs.rename('before.json', 'after.json', (err) => {
+  if (err) {
+    return console.error(err)
+  }
+
+  //done
+})
+```
+
+A synchronous API can be used like this, with a try/catch block to handle errors:
+
+```js
+const fs = require('fs')
+
+try {
+  fs.renameSync('before.json', 'after.json')
+  //done
+} catch (err) {
+  console.error(err)
+}
+```
+
+The key difference here is that the execution of your script will block in the second example, until the file operation succeeded.
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
+
+### events
+
+The `events` module provides us the EventEmitter class, which is key to working with events in Node.
+
+```js
+const EventEmitter = require('events')
+const door = new EventEmitter()
+```
+
+most useful methods:
+
+- `emitter.addListener()`
+- `emitter.emit()`
+- `emitter.eventNames()`
+- `emitter.getMaxListeners()`
+- `emitter.listenerCount()`
+- `emitter.listeners()`
+- `emitter.off()`
+- `emitter.on()`
+- `emitter.once()`
+- `emitter.prependListener()`
+- `emitter.prependOnceListener()`
+- `emitter.removeAllListeners()`
+- `emitter.removeListener()`
+- `emitter.setMaxListeners()`
+
+
+
+The event listener has these in-built events:
+
+* `newListener` when a listener is added
+* `removeListener` when a listener is removed
+
+Here's a detailed description of the most useful methods:
+
+#### `emitter.addListener()`
+
+Alias for `emitter.on()`.
+
+#### `emitter.emit()`
+
+Emits an event. It synchronously calls every event listener in the order they were registered.
+
+```js
+door.emit('slam'); // emitting the event "slam"
+```
+
+#### `emitter.eventNames()`
+
+Return an array of strings that represent the events registered on the current `EventEmitter` object:
+
+```js
+door.eventNames();
+```
+
+#### `emitter.getMaxListeners()`
+
+Get the maximum amount of listeners one can add to an `EventEmitter` object, which defaults to 10 but can be increased or lowered by using `setMaxListeners()`
+
+```js
+door.getMaxListeners();
+```
+
+#### `emitter.listenerCount()`
+
+Get the count of listeners of the event passed as parameter:
+
+```js
+door.listenerCount('open');
+```
+
+#### `emitter.listeners()`
+
+Gets an array of listeners of the event passed as parameter:
+
+```js
+door.listeners('open');
+```
+
+#### `emitter.off()`
+
+Alias for `emitter.removeListener()` added in Node.js 10
+
+#### `emitter.on()`
+
+Adds a callback function that's called when an event is emitted.
+
+Usage:
+
+```js
+door.on('open', () => {
+  console.log('Door was opened');
+});
+```
+
+#### `emitter.once()`
+
+Adds a callback function that's called when an event is emitted for the first time after registering this. This callback is only going to be called once, never again.
+
+```js
+const EventEmitter = require('events');
+
+const ee = new EventEmitter();
+
+ee.once('my-event', () => {
+  // call callback function once
+});
+```
+
+#### `emitter.prependListener()`
+
+When you add a listener using `on` or `addListener`, it's added last in the queue of listeners, and called last. Using `prependListener` it's added, and called, before other listeners.
+
+#### `emitter.prependOnceListener()`
+
+When you add a listener using `once`, it's added last in the queue of listeners, and called last. Using `prependOnceListener` it's added, and called, before other listeners.
+
+#### `emitter.removeAllListeners()`
+
+Removes all listeners of an `EventEmitter` object listening to a specific event:
+
+```js
+door.removeAllListeners('open');
+```
+
+#### `emitter.removeListener()`
+
+Remove a specific listener. You can do this by saving the callback function to a variable, when added, so you can reference it later:
+
+```js
+const doSomething = () => {};
+door.on('open', doSomething);
+door.removeListener('open', doSomething);
+```
+
+#### `emitter.setMaxListeners()`
+
+Sets the maximum amount of listeners one can add to an `EventEmitter` object, which defaults to 10 but can be increased or lowered.
+
+```js
+door.setMaxListeners(50);
+```
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
+
+
+
+
+
+
+
+### os
+
+
+This module provides many functions that you can use to retrieve information from the underlying operating system and the computer the program runs on, and interact with it.
+
+```js
+const os = require('os');
+```
+
+There are a few useful properties that tell us some key things related to handling files:
+
+`os.EOL` gives the line delimiter sequence. It's `\n` on Linux and macOS, and `\r\n` on Windows.
+
+`os.constants.signals` tells us all the constants related to handling process signals, like SIGHUP, SIGKILL and so on.
+
+`os.constants.errno` sets the constants for error reporting, like EADDRINUSE, EOVERFLOW and more.
+
+You can read them all on <https://nodejs.org/api/os.html#os_signal_constants>.
+
+Let's now see the main methods that `os` provides:
+
+#### `os.arch()`
+
+Return the string that identifies the underlying architecture, like `arm`, `x64`, `arm64`.
+
+#### `os.cpus()`
+
+Return information on the CPUs available on your system.
+
+Example:
+
+```js
+[
+  {
+    model: 'Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz',
+    speed: 2400,
+    times: {
+      user: 281685380,
+      nice: 0,
+      sys: 187986530,
+      idle: 685833750,
+      irq: 0,
+    },
+  },
+  {
+    model: 'Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz',
+    speed: 2400,
+    times: {
+      user: 282348700,
+      nice: 0,
+      sys: 161800480,
+      idle: 703509470,
+      irq: 0,
+    },
+  },
+];
+```
+
+#### `os.endianness()`
+
+Return `BE` or `LE` depending if Node.js was compiled with [Big Endian or Little Endian](https://en.wikipedia.org/wiki/Endianness).
+
+#### `os.freemem()`
+
+Return the number of bytes that represent the free memory in the system.
+
+#### `os.homedir()`
+
+Return the path to the home directory of the current user.
+
+Example:
+
+```js
+'/Users/joe';
+```
+
+#### `os.hostname()`
+
+Return the host name.
+
+#### `os.loadavg()`
+
+Return the calculation made by the operating system on the load average.
+
+It only returns a meaningful value on Linux and macOS.
+
+Example:
+
+```js
+[3.68798828125, 4.00244140625, 11.1181640625];
+```
+
+#### `os.networkInterfaces()`
+
+Returns the details of the network interfaces available on your system.
+
+Example:
+
+```console
+{ lo0:
+   [ { address: '127.0.0.1',
+       netmask: '255.0.0.0',
+       family: 'IPv4',
+       mac: 'fe:82:00:00:00:00',
+       internal: true },
+     { address: '::1',
+       netmask: 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+       family: 'IPv6',
+       mac: 'fe:82:00:00:00:00',
+       scopeid: 0,
+       internal: true },
+     { address: 'fe80::1',
+       netmask: 'ffff:ffff:ffff:ffff::',
+       family: 'IPv6',
+       mac: 'fe:82:00:00:00:00',
+       scopeid: 1,
+       internal: true } ],
+  en1:
+   [ { address: 'fe82::9b:8282:d7e6:496e',
+       netmask: 'ffff:ffff:ffff:ffff::',
+       family: 'IPv6',
+       mac: '06:00:00:02:0e:00',
+       scopeid: 5,
+       internal: false },
+     { address: '192.168.1.38',
+       netmask: '255.255.255.0',
+       family: 'IPv4',
+       mac: '06:00:00:02:0e:00',
+       internal: false } ],
+  utun0:
+   [ { address: 'fe80::2513:72bc:f405:61d0',
+       netmask: 'ffff:ffff:ffff:ffff::',
+       family: 'IPv6',
+       mac: 'fe:80:00:20:00:00',
+       scopeid: 8,
+       internal: false } ] }
+```
+
+#### `os.platform()`
+
+Return the platform that Node.js was compiled for:
+
+* `darwin`
+* `freebsd`
+* `linux`
+* `openbsd`
+* `win32`
+* ...more
+
+#### `os.release()`
+
+Returns a string that identifies the operating system release number
+
+#### `os.tmpdir()`
+
+Returns the path to the assigned temp folder.
+
+#### `os.totalmem()`
+
+Returns the number of bytes that represent the total memory available in the system.
+
+#### `os.type()`
+
+Identifies the operating system:
+
+* `Linux`
+* `Darwin` on macOS
+* `Windows_NT` on Windows
+
+#### `os.uptime()`
+
+Returns the number of seconds the computer has been running since it was last rebooted.
+
+#### `os.userInfo()`
+
+Returns an object that contains the current `username`, `uid`, `gid`, `shell`, and `homedir`
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
+
+### http
+
+The HTTP core module is a key module to Node.js networking.
+
+It can be included using
+
+```js
+const http = require('http');
+```
+
+The module provides some properties and methods, and some classes.
+
+#### Properties
+
+##### `http.METHODS`
+
+This property lists all the HTTP methods supported:
+
+```console
+> require('http').METHODS
+[ 'ACL',
+  'BIND',
+  'CHECKOUT',
+  'CONNECT',
+  'COPY',
+  'DELETE',
+  'GET',
+  'HEAD',
+  'LINK',
+  'LOCK',
+  'M-SEARCH',
+  'MERGE',
+  'MKACTIVITY',
+  'MKCALENDAR',
+  'MKCOL',
+  'MOVE',
+  'NOTIFY',
+  'OPTIONS',
+  'PATCH',
+  'POST',
+  'PROPFIND',
+  'PROPPATCH',
+  'PURGE',
+  'PUT',
+  'REBIND',
+  'REPORT',
+  'SEARCH',
+  'SUBSCRIBE',
+  'TRACE',
+  'UNBIND',
+  'UNLINK',
+  'UNLOCK',
+  'UNSUBSCRIBE' ]
+```
+
+##### `http.STATUS_CODES`
+
+This property lists all the HTTP status codes and their description:
+
+```console
+> require('http').STATUS_CODES
+{ '100': 'Continue',
+  '101': 'Switching Protocols',
+  '102': 'Processing',
+  '200': 'OK',
+  '201': 'Created',
+  '202': 'Accepted',
+  '203': 'Non-Authoritative Information',
+  '204': 'No Content',
+  '205': 'Reset Content',
+  '206': 'Partial Content',
+  '207': 'Multi-Status',
+  '208': 'Already Reported',
+  '226': 'IM Used',
+  '300': 'Multiple Choices',
+  '301': 'Moved Permanently',
+  '302': 'Found',
+  '303': 'See Other',
+  '304': 'Not Modified',
+  '305': 'Use Proxy',
+  '307': 'Temporary Redirect',
+  '308': 'Permanent Redirect',
+  '400': 'Bad Request',
+  '401': 'Unauthorized',
+  '402': 'Payment Required',
+  '403': 'Forbidden',
+  '404': 'Not Found',
+  '405': 'Method Not Allowed',
+  '406': 'Not Acceptable',
+  '407': 'Proxy Authentication Required',
+  '408': 'Request Timeout',
+  '409': 'Conflict',
+  '410': 'Gone',
+  '411': 'Length Required',
+  '412': 'Precondition Failed',
+  '413': 'Payload Too Large',
+  '414': 'URI Too Long',
+  '415': 'Unsupported Media Type',
+  '416': 'Range Not Satisfiable',
+  '417': 'Expectation Failed',
+  '418': 'I\'m a teapot',
+  '421': 'Misdirected Request',
+  '422': 'Unprocessable Entity',
+  '423': 'Locked',
+  '424': 'Failed Dependency',
+  '425': 'Unordered Collection',
+  '426': 'Upgrade Required',
+  '428': 'Precondition Required',
+  '429': 'Too Many Requests',
+  '431': 'Request Header Fields Too Large',
+  '451': 'Unavailable For Legal Reasons',
+  '500': 'Internal Server Error',
+  '501': 'Not Implemented',
+  '502': 'Bad Gateway',
+  '503': 'Service Unavailable',
+  '504': 'Gateway Timeout',
+  '505': 'HTTP Version Not Supported',
+  '506': 'Variant Also Negotiates',
+  '507': 'Insufficient Storage',
+  '508': 'Loop Detected',
+  '509': 'Bandwidth Limit Exceeded',
+  '510': 'Not Extended',
+  '511': 'Network Authentication Required' }
+```
+
+##### `http.globalAgent`
+
+Points to the global instance of the Agent object, which is an instance of the `http.Agent` class.
+
+It's used to manage connections persistence and reuse for HTTP clients, and it's a key component of Node.js HTTP networking.
+
+More in the `http.Agent` class description later on.
+
+#### Methods
+
+##### `http.createServer()`
+
+Returns a new instance of the `http.Server` class.
+
+Usage:
+
+```js
+const server = http.createServer((req, res) => {
+  // handle every single request with this callback
+});
+```
+
+##### `http.request()`
+
+Makes an HTTP request to a server, creating an instance of the `http.ClientRequest` class.
+
+##### `http.get()`
+
+Similar to `http.request()`, but automatically sets the HTTP method to GET, and calls `req.end()` automatically.
+
+#### Classes
+
+The HTTP module provides 5 classes:
+
+* `http.Agent`
+* `http.ClientRequest`
+* `http.Server`
+* `http.ServerResponse`
+* `http.IncomingMessage`
+
+##### `http.Agent`
+
+Node.js creates a global instance of the `http.Agent` class to manage connections persistence and reuse for HTTP clients, a key component of Node.js HTTP networking.
+
+This object makes sure that every request made to a server is queued and a single socket is reused.
+
+It also maintains a pool of sockets. This is key for performance reasons.
+
+##### `http.ClientRequest`
+
+An `http.ClientRequest` object is created when `http.request()` or `http.get()` is called.
+
+When a response is received, the `response` event is called with the response, with an `http.IncomingMessage` instance as argument.
+
+The returned data of a response can be read in 2 ways:
+
+* you can call the `response.read()` method
+* in the `response` event handler you can setup an event listener for the `data` event, so you can listen for the data streamed into.
+
+##### `http.Server`
+
+This class is commonly instantiated and returned when creating a new server using `http.createServer()`.
+
+Once you have a server object, you have access to its methods:
+
+* `close()` stops the server from accepting new connections
+* `listen()` starts the HTTP server and listens for connections
+
+##### `http.ServerResponse`
+
+Created by an `http.Server` and passed as the second parameter to the `request` event it fires.
+
+Commonly known and used in code as `res`:
+
+```js
+const server = http.createServer((req, res) => {
+  // res is an http.ServerResponse object
+});
+```
+
+The method you'll always call in the handler is `end()`, which closes the response, the message is complete and the server can send it to the client. It must be called on each response.
+
+These methods are used to interact with HTTP headers:
+
+* `getHeaderNames()` get the list of the names of the HTTP headers already set
+* `getHeaders()` get a copy of the HTTP headers already set
+* `setHeader('headername', value)` sets an HTTP header value
+* `getHeader('headername')` gets an HTTP header already set
+* `removeHeader('headername')` removes an HTTP header already set
+* `hasHeader('headername')` return true if the response has that header set
+* `headersSent()` return true if the headers have already been sent to the client
+
+After processing the headers you can send them to the client by calling `response.writeHead()`, which accepts the statusCode as the first parameter, the optional status message, and the headers object.
+
+To send data to the client in the response body, you use `write()`. It will send buffered data to the HTTP response stream.
+
+If the headers were not sent yet using `response.writeHead()`, it will send the headers first, with the status code and message that's set in the request, which you can edit by setting the `statusCode` and `statusMessage` properties values:
+
+```js
+response.statusCode = 500;
+response.statusMessage = 'Internal Server Error';
+```
+
+##### `http.IncomingMessage`
+
+An `http.IncomingMessage` object is created by:
+
+* `http.Server` when listening to the `request` event
+* `http.ClientRequest` when listening to the `response` event
+
+It can be used to access the response:
+
+* status using its `statusCode` and `statusMessage` methods
+* headers using its `headers` method or `rawHeaders`
+* HTTP method using its `method` method
+* HTTP version using the `httpVersion` method
+* URL using the `url` method
+* underlying socket using the `socket` method
+
+The data is accessed using streams, since `http.IncomingMessage` implements the Readable Stream interface.
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
+
+### path
+
+The `path` module provides a lot of very useful functionality to access and interact with the file system.
+
+There is no need to install it. Being part of the Node.js core, it can be used by simply requiring it:
+
+```js
+const path = require('path');
+```
+
+This module provides `path.sep` which provides the path segment separator (`\` on Windows, and `/` on Linux / macOS), and `path.delimiter` which provides the path delimiter (`;` on Windows, and `:` on Linux / macOS).
+
+These are the `path` methods:
+
+#### `path.basename()`
+
+Return the last portion of a path. A second parameter can filter out the file extension:
+
+```js
+require('path').basename('/test/something'); // something
+require('path').basename('/test/something.txt'); // something.txt
+require('path').basename('/test/something.txt', '.txt'); // something
+```
+
+#### `path.dirname()`
+
+Return the directory part of a path:
+
+```js
+require('path').dirname('/test/something'); // /test
+require('path').dirname('/test/something/file.txt'); // /test/something
+```
+
+#### `path.extname()`
+
+Return the extension part of a path
+
+```js
+require('path').extname('/test/something'); // ''
+require('path').extname('/test/something/file.txt'); // '.txt'
+```
+
+#### `path.format()`
+
+Returns a path string from an object, This is the opposite of `path.parse`<br/>
+`path.format` accepts an object as argument with the following keys:
+* `root`: the root
+* `dir`: the folder path starting from the root
+* `base`: the file name + extension
+* `name`: the file name
+* `ext`: the file extension
+
+`root` is ignored if `dir` is provided<br/>
+`ext` and `name` are ignored if `base` exists
+
+```js
+// POSIX
+require('path').format({ dir: '/Users/joe', base: 'test.txt' }); //  '/Users/joe/test.txt'
+
+require('path').format({ root: '/Users/joe', name: 'test', ext: '.txt' }); //  '/Users/joe/test.txt'
+
+// WINDOWS
+require('path').format({ dir: 'C:\\Users\\joe', base: 'test.txt' }); //  'C:\\Users\\joe\\test.txt'
+```
+
+#### `path.isAbsolute()`
+
+Returns true if it's an absolute path
+
+```js
+require('path').isAbsolute('/test/something'); // true
+require('path').isAbsolute('./test/something'); // false
+```
+
+#### `path.join()`
+
+Joins two or more parts of a path:
+
+```js
+const name = 'joe';
+require('path').join('/', 'users', name, 'notes.txt'); // '/users/joe/notes.txt'
+```
+
+#### `path.normalize()`
+
+`path.normalize` is "What is the shortest path I can take that will take me to the same place as the input", while path.resolve is "What is my destination if I take this path.
+
+Tries to calculate the actual path when it contains relative specifiers like `.` or `..`, or double slashes:
+
+```js
+require('path').normalize('/users/joe/..//test.txt'); // '/users/test.txt'
+```
+
+#### `path.parse()`
+
+Parses a path to an object with the segments that compose it:
+
+* `root`: the root
+* `dir`: the folder path starting from the root
+* `base`: the file name + extension
+* `name`: the file name
+* `ext`: the file extension
+
+Example:
+
+```js
+require('path').parse('/users/test.txt');
+```
+
+results in
+
+```console
+{
+  root: '/',
+  dir: '/users',
+  base: 'test.txt',
+  ext: '.txt',
+  name: 'test'
+}
+```
+
+#### `path.relative()`
+
+Accepts 2 paths as arguments. Returns the relative path from the first path to the second, based on the current working directory.
+
+Example:
+
+```js
+require('path').relative('/Users/joe', '/Users/joe/test.txt'); // 'test.txt'
+require('path').relative('/Users/joe', '/Users/joe/something/test.txt'); // 'something/test.txt'
+```
+
+#### `path.resolve()`
+
+You can get the absolute path calculation of a relative path using `path.resolve()`:
+
+```js
+require('path').resolve('joe.txt'); // '/Users/joe/joe.txt' if run from my home folder
+```
+
+By specifying a second parameter, `resolve` will use the first as a base for the second:
+
+```js
+require('path').resolve('tmp', 'joe.txt'); // '/Users/joe/tmp/joe.txt' if run from my home folder
+```
+
+If the first parameter starts with a slash, that means it's an absolute path:
+
+```js
+require('path').resolve('/etc', 'joe.txt'); // '/etc/joe.txt'
+```
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
+
+### buffer
+
+#### What is a buffer?
+
+A buffer is an area of memory. Most JavaScript developers are much less familiar with this concept, compared to programmers using a system programming languages (like C, C++, or Go), which interact directly with memory every day.
+
+It represents a fixed-size chunk of memory (can't be resized) allocated outside of the V8 JavaScript engine.
+
+You can think of a buffer like an array of integers, which each represent a byte of data.
+
+It is implemented by the Node.js [Buffer class](https://nodejs.org/api/buffer.html).
+
+#### Why do we need a buffer?
+
+Buffers were introduced to help developers deal with binary data, in an ecosystem that traditionally only dealt with strings rather than binaries.
+
+Buffers in Node.js are not related to the concept of buffering data. That is what happens when a stream processor receives data faster than it can digest.
+
+#### How to create a buffer
+
+A buffer is created using the [`Buffer.from()`](https://nodejs.org/api/buffer.html#buffer_buffer_from_buffer_alloc_and_buffer_allocunsafe), [`Buffer.alloc()`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_alloc_size_fill_encoding), and [`Buffer.allocUnsafe()`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_allocunsafe_size) methods.
+
+```js
+const buf = Buffer.from('Hey!');
+```
+* [`Buffer.from(array)`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_array)
+* [`Buffer.from(arrayBuffer[, byteOffset[, length]])`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_arraybuffer_byteoffset_length)
+* [`Buffer.from(buffer)`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_buffer)
+* [`Buffer.from(string[, encoding])`](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_string_encoding)
+
+You can also just initialize the buffer passing the size. This creates a 1KB buffer:
+
+```js
+const buf = Buffer.alloc(1024);
+```
+
+or
+```js
+const buf = Buffer.allocUnsafe(1024);
+```
+
+While both `alloc` and `allocUnsafe` allocate a `Buffer` of the specified size in bytes, the `Buffer` created by `alloc` will be _initialized_ with zeroes and the one created by `allocUnsafe` will be _uninitialized_. This means that while `allocUnsafe` would be quite fast in comparison to `alloc`, the allocated segment of memory may contain old data which could potentially be sensitive.
+
+Older data, if present in the memory, can be accessed or leaked when the `Buffer` memory is read. This is what really makes `allocUnsafe` unsafe and extra care must be taken while using it.
+
+#### Using a buffer
+
+##### Access the content of a buffer
+
+A buffer, being an array of bytes, can be accessed like an array:
+
+```js
+const buf = Buffer.from('Hey!');
+console.log(buf[0]); // 72
+console.log(buf[1]); // 101
+console.log(buf[2]); // 121
+```
+
+Those numbers are the UTF-8 bytes that identify the characters in the buffer (`H` → `72`, `e` → `101`, `y` → `121`). This happens because `Buffer.from()` uses UTF-8 by default.
+Keep in mind that some characters may occupy more than one byte in the buffer (`é` → `195 169`).
+
+You can print the full content of the buffer using the `toString()` method:
+
+```js
+console.log(buf.toString());
+```
+
+`buf.toString()` also uses UTF-8 by default.
+
+> Notice that if you initialize a buffer with a number that sets its size, you'll get access to pre-initialized memory that will contain random data, not an empty buffer!
+
+##### Get the length of a buffer
+
+Use the `length` property:
+
+```js
+const buf = Buffer.from('Hey!');
+console.log(buf.length);
+```
+
+##### Iterate over the contents of a buffer
+
+```js
+const buf = Buffer.from('Hey!');
+for (const item of buf) {
+  console.log(item); // 72 101 121 33
+}
+```
+
+##### Changing the content of a buffer
+
+You can write to a buffer a whole string of data by using the `write()` method:
+
+```js
+const buf = Buffer.alloc(4);
+buf.write('Hey!');
+```
+
+Just like you can access a buffer with an array syntax, you can also set the contents of the buffer in the same way:
+
+```js
+const buf = Buffer.from('Hey!');
+buf[1] = 111; // o in UTF-8
+console.log(buf.toString()); // Hoy!
+```
+
+##### Slice a buffer
+
+If you want to create a partial visualization of a buffer, you can create a slice. A slice is not a copy: the original buffer is still the source of truth. If that changes, your slice changes.
+
+Use the `subarray()` method to create it. The first parameter is the starting position, and you can specify an optional second parameter with the end position:
+
+```js
+const buf = Buffer.from('Hey!');
+buf.subarray(0).toString(); // Hey!
+const slice = buf.subarray(0, 2);
+console.log(slice.toString()); // He
+buf[1] = 111; // o
+console.log(slice.toString()); // Ho
+```
+
+##### Copy a buffer
+
+Copying a buffer is possible using the `set()` method:
+
+```js
+const buf = Buffer.from('Hey!');
+const bufcopy = Buffer.alloc(4); // allocate 4 bytes
+bufcopy.set(buf);
+```
+
+By default you copy the whole buffer. If you only want to copy a part of the buffer, you can use `.subarray()` and the `offset` argument that specifies an offset to write to:
+
+```js
+const buf = Buffer.from('Hey?');
+const bufcopy = Buffer.from('Moo!');
+bufcopy.set(buf.subarray(1, 3), 1);
+bufcopy.toString(); // 'Mey!'
+```
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+---
+
+
+### stream
+
+#### What are streams
+
+Streams are one of the fundamental concepts that power Node.js applications.
+
+They are a way to handle reading/writing files, network communications, or any kind of end-to-end information exchange in an efficient way.
+
+Streams are not a concept unique to Node.js. They were introduced in the Unix operating system decades ago, and programs can interact with each other passing streams through the pipe operator (`|`).
+
+For example, in the traditional way, when you tell the program to read a file, the file is read into memory, from start to finish, and then you process it.
+
+Using streams you read it piece by piece, processing its content without keeping it all in memory.
+
+The Node.js [`stream` module](https://nodejs.org/api/stream.html) provides the foundation upon which all streaming APIs are built.
+All streams are instances of [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
+
+#### Why streams
+
+Streams basically provide two major advantages over using other data handling methods:
+
+* **Memory efficiency**: you don't need to load large amounts of data in memory before you are able to process it
+* **Time efficiency**: it takes way less time to start processing data, since you can start processing as soon as you have it, rather than waiting till the whole data payload is available
+
+#### An example of a stream
+
+A typical example is reading files from a disk.
+
+Using the Node.js `fs` module, you can read a file, and serve it over HTTP when a new connection is established to your HTTP server:
+
+```js
+const http = require('http');
+const fs = require('fs');
+
+const server = http.createServer(function (req, res) {
+  fs.readFile(`${__dirname}/data.txt`, (err, data) => {
+    res.end(data);
+  });
+});
+server.listen(3000);
+```
+
+`readFile()` reads the full contents of the file, and invokes the callback function when it's done.
+
+`res.end(data)` in the callback will return the file contents to the HTTP client.
+
+If the file is big, the operation will take quite a bit of time. Here is the same thing written using streams:
+
+```js
+const http = require('http');
+const fs = require('fs');
+
+const server = http.createServer((req, res) => {
+  const stream = fs.createReadStream(`${__dirname}/data.txt`);
+  stream.pipe(res);
+});
+server.listen(3000);
+```
+
+Instead of waiting until the file is fully read, we start streaming it to the HTTP client as soon as we have a chunk of data ready to be sent.
+
+#### pipe()
+
+The above example uses the line `stream.pipe(res)`: the `pipe()` method is called on the file stream.
+
+What does this code do? It takes the source, and pipes it into a destination.
+
+You call it on the source stream, so in this case, the file stream is piped to the HTTP response.
+
+The return value of the `pipe()` method is the destination stream, which is a very convenient thing that lets us chain multiple `pipe()` calls, like this:
+
+```js
+src.pipe(dest1).pipe(dest2);
+```
+
+This construct is the same as doing
+
+```js
+src.pipe(dest1);
+dest1.pipe(dest2);
+```
+
+#### Streams-powered Node.js APIs
+
+Due to their advantages, many Node.js core modules provide native stream handling capabilities, most notably:
+
+* `process.stdin` returns a stream connected to stdin
+* `process.stdout` returns a stream connected to stdout
+* `process.stderr` returns a stream connected to stderr
+* `fs.createReadStream()` creates a readable stream to a file
+* `fs.createWriteStream()` creates a writable stream to a file
+* `net.connect()` initiates a stream-based connection
+* `http.request()` returns an instance of the http.ClientRequest class, which is a writable stream
+* `zlib.createGzip()` compress data using gzip (a compression algorithm) into a stream
+* `zlib.createGunzip()` decompress a gzip stream.
+* `zlib.createDeflate()` compress data using deflate (a compression algorithm) into a stream
+* `zlib.createInflate()` decompress a deflate stream
+
+#### Different types of streams
+
+There are four classes of streams:
+
+* `Readable`: a stream you can pipe from, but not pipe into (you can receive data, but not send data to it). When you push data into a readable stream, it is buffered, until a consumer starts to read the data.
+* `Writable`: a stream you can pipe into, but not pipe from (you can send data, but not receive from it)
+* `Duplex`: a stream you can both pipe into and pipe from, basically a combination of a Readable and Writable stream
+* `Transform`: a Transform stream is similar to a Duplex, but the output is a transform of its input
+
+#### How to create a readable stream
+
+We get the Readable stream from the [`stream` module](https://nodejs.org/api/stream.html), and we initialize it and implement the `readable._read()` method.
+
+First create a stream object:
+
+```js
+const Stream = require('stream');
+
+const readableStream = new Stream.Readable();
+```
+
+then implement `_read`:
+
+```js
+readableStream._read = () => {};
+```
+
+You can also implement `_read` using the `read` option:
+
+```js
+const readableStream = new Stream.Readable({
+  read() {},
+});
+```
+
+Now that the stream is initialized, we can send data to it:
+
+```js
+readableStream.push('hi!');
+readableStream.push('ho!');
+```
+
+#### How to create a writable stream
+
+To create a writable stream we extend the base `Writable` object, and we implement its \_write() method.
+
+First create a stream object:
+
+```js
+const Stream = require('stream');
+
+const writableStream = new Stream.Writable();
+```
+
+then implement `_write`:
+
+```js
+writableStream._write = (chunk, encoding, next) => {
+  console.log(chunk.toString());
+  next();
+};
+```
+
+You can now pipe a
+readable stream in:
+
+```js
+process.stdin.pipe(writableStream);
+```
+
+#### How to get data from a readable stream
+
+How do we read data from a readable stream? Using a writable stream:
+
+```js
+const Stream = require('stream');
+
+const readableStream = new Stream.Readable({
+  read() {},
+});
+const writableStream = new Stream.Writable();
+
+writableStream._write = (chunk, encoding, next) => {
+  console.log(chunk.toString());
+  next();
+};
+
+readableStream.pipe(writableStream);
+
+readableStream.push('hi!');
+readableStream.push('ho!');
+```
+
+You can also consume a readable stream directly, using the `readable` event:
+
+```js
+readableStream.on('readable', () => {
+  console.log(readableStream.read());
+});
+```
+
+#### How to send data to a writable stream
+
+Using the stream `write()` method:
+
+```js
+writableStream.write('hey!\n');
+```
+
+#### Signaling a writable stream that you ended writing
+
+Use the `end()` method:
+
+```js
+const Stream = require('stream');
+
+const readableStream = new Stream.Readable({
+  read() {},
+});
+const writableStream = new Stream.Writable();
+
+writableStream._write = (chunk, encoding, next) => {
+  console.log(chunk.toString());
+  next();
+};
+
+readableStream.pipe(writableStream);
+
+readableStream.push('hi!');
+readableStream.push('ho!');
+
+readableStream.on('close', () => writableStream.end());
+writableStream.on('close', () => console.log('ended'));
+
+readableStream.destroy();
+```
+
+In the above example, `end()` is called within a listener to the `close` event on the readable stream to ensure it is not called before all write events have passed through the pipe, as doing so would cause an `error` event to be emitted.
+Calling `destroy()` on the readable stream causes the `close` event to be emitted.
+The listener to the `close` event on the writable stream demonstrates the completion of the process as it is emitted after the call to `end()`.
+
+#### How to create a transform stream
+
+We get the Transform stream from the [`stream` module](https://nodejs.org/api/stream.html), and we initialize it and implement the `transform._transform()` method.
+
+First create a transform stream object:
+
+```js
+const { Transform } = require('stream');
+
+const transformStream = new Transform();
+```
+
+then implement `_transform`:
+
+```js
+transformStream._transform = (chunk, encoding, callback) => {
+  transformStream.push(chunk.toString().toUpperCase());
+  callback();
+};
+```
+
+Pipe readable stream:
+
+```js
+process.stdin.pipe(transformStream).pipe(process.stdout);
+```
+
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
+---
+
+
+
+
+
+
+
+
+
 
 
 
