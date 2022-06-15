@@ -61,6 +61,9 @@
     - [What is `tick` in Nodejs event loop?](#what-is-tick-in-nodejs-event-loop)
     - [What concurrency means in Node.js?](#what-concurrency-means-in-nodejs)
     - [In the backend Node make use of multi threading, do JS code gets executed in multiple threads or not?](#in-the-backend-node-make-use-of-multi-threading-do-js-code-gets-executed-in-multiple-threads-or-not)
+    - [Why Promises Are Faster Than setTimeout()?](#why-promises-are-faster-than-settimeout)
+      - [Experiment](#experiment)
+      - [Ans: Event Loop](#ans-event-loop)
   - [A little about working with Node.js](#a-little-about-working-with-nodejs)
     - [The time required to run below code in Google Chrome is considerably more than the time required to run it in Node.js. Explain why this is so, even though both use the v8 JavaScript Engine.:](#the-time-required-to-run-below-code-in-google-chrome-is-considerably-more-than-the-time-required-to-run-it-in-nodejs-explain-why-this-is-so-even-though-both-use-the-v8-javascript-engine)
     - [What is the preferred method of resolving unhandled exceptions in Node.js?](#what-is-the-preferred-method-of-resolving-unhandled-exceptions-in-nodejs)
@@ -234,6 +237,7 @@
       - [Signaling a writable stream that you ended writing](#signaling-a-writable-stream-that-you-ended-writing)
       - [How to create a transform stream](#how-to-create-a-transform-stream)
     - [url](#url)
+    - [child process](#child-process)
     - [To Be](#to-be)
   - [Few packages used with Node.js](#few-packages-used-with-nodejs)
     - [PM2](#pm2)
@@ -1613,11 +1617,67 @@ No, JS runs in single thread always, except when you use clusters. C++ do run in
 
 <p align="center"><a href="#index">back to index<a/></p>
 
+---
+
+### Why Promises Are Faster Than setTimeout()?
+
+
+#### Experiment
+
+Let's try an experiment. What does execute faster: an immediately resolved promise or an immediate timeout (aka a timeout of 0 milliseconds)?
+
+```js
+Promise.resolve(1).then(function resolve(data) {
+  console.log(`Resolved! ${data}`);
+});
+// Promise.resolve(1).then(console.log) // logs 1
+
+setTimeout(function timeout() {
+  console.log("Timed out!");
+}, 0);
+// logs 'Resolved!'
+// logs 'Timed out!'
+
+```
+
+
+```js
+setTimeout(function timeout() {
+  console.log("Timed out!");
+}, 0);
+
+Promise.resolve(1).then(function resolve(data) {
+  console.log(`Resolved! ${data}`);
+});
+// logs 'Resolved!'
+// logs 'Timed out!'
+
+```
+
+#### Ans: Event Loop
+
+![event-loop](/snippets/static/13.png)
+
+The call stack is a LIFO (Last In, First Out) structure that stores the execution context created during the code execution. In simple words, the call stack executes the functions.
+
+Web APIs is the place the async operations (fetch requests, promises, timers) with their callbacks are waiting to complete. **Put here from call stack.**
+
+The task queue (also named `macrostasks`) is a FIFO (First In, First Out) structure that holds the callbacks of async operations that are ready to be executed. For example, the callback of a timed out `setTimeout()` — ready to be executed — is enqueued in the task queue.
+
+The job queue (also named `microtasks`) is a FIFO (First In, First Out) structure that holds the callbacks of promises that are ready to be executed. For example, the resolve or reject callbacks of a fulfilled promise are enqueued in the job queue.
+
+Finally, the event loop permanently monitors whether the call stack is empty. If the call stack is empty, the event loop looks into the job queue or task queue, and dequeues any callback ready to be executed into the call stack.
+
+
+> the event loop priorities dequeuing jobs from the job queue (which stores the fulfilled promises' callbacks) over the tasks from the task queue (which stores timed out setTimeout() callbacks).
+
+<p align="center"><a href="#index">back to index<a/></p>
 
 ---
 ---
 
 ## A little about working with Node.js
+ 
 
 ### The time required to run below code in Google Chrome is considerably more than the time required to run it in Node.js. Explain why this is so, even though both use the v8 JavaScript Engine.: 
 
@@ -5195,6 +5255,13 @@ console.log(qdata.month); //returns 'february'
 
 
 ---
+
+### child process
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
 ---
 
 
@@ -5210,7 +5277,7 @@ console.log(qdata.month); //returns 'february'
 
 ### To Be 
 
-
+- [child process]()
 - [Q. How to debug an application in Node.js?]()
 - [Q. What is a test pyramid?]()
 - [Q. How can you secure your HTTP cookies against XSS attacks?]()
