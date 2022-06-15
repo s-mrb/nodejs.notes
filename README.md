@@ -233,6 +233,7 @@
       - [How to send data to a writable stream](#how-to-send-data-to-a-writable-stream)
       - [Signaling a writable stream that you ended writing](#signaling-a-writable-stream-that-you-ended-writing)
       - [How to create a transform stream](#how-to-create-a-transform-stream)
+    - [url](#url)
     - [To Be](#to-be)
   - [Few packages used with Node.js](#few-packages-used-with-nodejs)
     - [PM2](#pm2)
@@ -5172,6 +5173,28 @@ process.stdin.pipe(transformStream).pipe(process.stdout);
 
 
 ---
+
+### url
+
+> View [official doc](https://nodejs.org/api/url.html) for it as reference, and see example below
+
+```js
+var url = require('url');
+var adr = 'http://localhost:8080/default.htm?year=2017&month=february';
+var q = url.parse(adr, true);
+
+console.log(q.host); //returns 'localhost:8080'
+console.log(q.pathname); //returns '/default.htm'
+console.log(q.search); //returns '?year=2017&month=february'
+
+var qdata = q.query; //returns an object: { year: 2017, month: 'february' }
+console.log(qdata.month); //returns 'february'
+```
+
+<p align="center"><a href="#index">back to index<a/></p>
+
+
+---
 ---
 
 
@@ -5187,8 +5210,7 @@ process.stdin.pipe(transformStream).pipe(process.stdout);
 
 ### To Be 
 
-- [Buffers](https://www.freecodecamp.org/news/do-you-want-a-better-understanding-of-buffer-in-node-js-check-this-out-2e29de2968e8/)
-- [Piping](#)
+
 - [Q. How to debug an application in Node.js?]()
 - [Q. What is a test pyramid?]()
 - [Q. How can you secure your HTTP cookies against XSS attacks?]()
