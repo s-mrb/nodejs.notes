@@ -249,6 +249,7 @@
 
 
 # Content
+
 ## What is Node.js?
 
 Node.js is a JavaScript **runtime environment** built on [Chrome's V8 JavaScript engine](https://github.com/s-mrb/RB-ChromeV8). It provides a runtime environment which gives:
@@ -5384,3 +5385,51 @@ pm2 delete index
 - Use cases of `async-await` vs those of `promises`, how they differ?
 - Transform stream
 - Fork vs Spawn vs Cluster vs Child Process
+
+
+
+Basic Architecture:
+
+Application
+V8
+Node Bindings
+libuv (event queue, event loop, worker threads)
+
+
+what are bindings? 
+v8 in c++
+libuv in c
+core nodejs modules in JS
+our application code in JS
+
+
+the application you write in node is in JS. 
+some of main modules of Nodejs have their core functions written in c++, for example crypto module. 
+nodejs bindings helps to transform/communicate your JS function call of crypto with its c++ implementation. 
+
+v8 works on your code to translate it into machine code. when it encounters that crypto function  it will replace it's JS part into its c++ equivalent, bindings will assist V8 in translating data types from the world of JS to that of c++. 
+
+v8 also handles call stack, data types, memory allocation and garbage collection
+
+libuv is in c, it provides compiled JS code access to system resources. 
+libub is not something that is part of code you wrote, it is outside compiled code. another bindings helps in communication bw libub and compiled JS code. 
+
+at the end of the day it is c++ code that is compiled into machine code
+
+
+The code, application we write gets translated or compiled via v8, 
+to let that compiled code to interact with OS we need some sort of APIs and Node Bindings comes to help for this, 
+now we have code that can interact with external environment but we don't have anything for memory management or something to give order or structure to our code how do we give code async nature, libuv comes to help here. 
+
+as our code is read line by line, the synchronous part goes to stack and asynchronous goes to heap. 
+
+
+
+
+
+Heap: In javascript, synchronous calls are going into the stack while asynchronous calls are going into the Heap, and when done are back in the Queue. A function is moving from the Queue to the Stack only when it's empty.
+
+Message Queue: When setTimeout() is called, the Browser or Node.js starts the timer. Once the timer expires, the callback function is put in the Message Queue. The Message Queue is also where user-initiated events like click or keyboard events, or fetch responses are queued before your code has the opportunity to react to them. Or also DOM events like onLoad. The loop gives priority to the call stack, and it first processes everything it finds in the call stack, and once there's nothing in there, it goes to pick up things in the message queue.
+
+
+Job Queue: used by Promises. A way to execute the result of an async function as soon as possible, rather than being put at the end of the call stack
